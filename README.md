@@ -37,131 +37,137 @@ Upload to GitHub Pages for free hosting.
 
 ## PROGRAM
 
-### Index.html:
+
 ```
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do List</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Todo Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3e5f5; /* Light pastel purple */
+            text-align: center;
+        }
+        header, footer {
+            background-color: #b39ddb; /* Soft pastel purple */
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .todo-container {
+            max-width: 400px;
+            background: white;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #b39ddb;
+        }
+        .todo-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #b39ddb;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .todo-list {
+            list-style: none;
+            padding: 0;
+        }
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 5px;
+            background-color: #f3e5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .todo-item.completed span {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .todo-buttons button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .complete-btn {
+            background-color: #9575cd; /* Softer purple */
+            color: white;
+        }
+        .delete-btn {
+            background-color: #f48fb1; /* Soft pink for contrast */
+            color: white;
+        }
+    </style>
 </head>
 <body>
+    <header>Todo Application</header>
     <div class="todo-container">
-        <h2>To-Do List</h2>
-        <div class="input-section">
-            <input type="text" id="todo-input" placeholder="Enter a task...">
-            <button onclick="addTask()">Add</button>
-        </div>
-        <ul id="task-list"></ul>
+        <h2>To-Do List ✅</h2>
+        <input type="text" id="todo-input" class="todo-input" placeholder="Add a new task">
+        <ul id="todo-list" class="todo-list"></ul>
     </div>
-    <script src="script.js"></script>
+    <footer>&copy; 2025 Taranikka (212223220115) | All rights reserved.</footer>
+    <script>
+        const todoInput = document.getElementById('todo-input');
+        const todoList = document.getElementById('todo-list');
+
+        function addTodo() {
+            const task = todoInput.value.trim();
+            if (task === '') return;
+
+            const li = document.createElement('li');
+            li.className = 'todo-item';
+
+            const span = document.createElement('span');
+            span.textContent = task;
+
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.className = 'todo-buttons';
+
+            const completeBtn = document.createElement('button');
+            completeBtn.textContent = 'Complete';
+            completeBtn.className = 'complete-btn';
+            completeBtn.onclick = () => {
+                li.classList.toggle('completed');
+            };
+
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.onclick = () => {
+                todoList.removeChild(li);
+            };
+
+            buttonsDiv.appendChild(completeBtn);
+            buttonsDiv.appendChild(deleteBtn);
+
+            li.appendChild(span);
+            li.appendChild(buttonsDiv);
+
+            todoList.appendChild(li);
+            todoInput.value = '';
+        }
+
+        todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+    </script>
 </body>
 </html>
-```
-### style.css:
-```
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #9f87f6;
-    margin: 0;
-}
 
-.todo-container {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
-}
-
-.input-section {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 15px;
-}
-
-input {
-    flex: 1;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    padding: 8px 12px;
-    border: none;
-    background: #28a745;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-left: 5px;
-}
-
-button:hover {
-    background: #218838;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    background: #f59ef5;
-    padding: 10px;
-    margin: 5px 0;
-    display: flex;
-    justify-content: space-between;
-    border-radius: 5px;
-}
-
-.delete-btn {
-    background: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.delete-btn:hover {
-    background: darkred;
-}
-
-```
-### script.js:
-```
-function addTask() {
-    let taskInput = document.getElementById("todo-input");
-    let taskList = document.getElementById("task-list");
-
-    if (taskInput.value.trim() === "") {
-        alert("Please enter a task!");
-        return;
-    }
-
-    let li = document.createElement("li");
-    li.textContent = taskInput.value;
-
-    let deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "X";
-    deleteBtn.className = "delete-btn";
-    deleteBtn.onclick = function () {
-        taskList.removeChild(li);
-    };
-
-    li.appendChild(deleteBtn);
-    taskList.appendChild(li);
-    taskInput.value = "";
-}
-```
 
 ## OUTPUT:
 
